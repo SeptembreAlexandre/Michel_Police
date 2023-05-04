@@ -52,8 +52,6 @@ jobs:
     - name: SSH into the VM instance
       run: |
         gcloud compute ssh ${{ env.VM_NAME }} --zone=${{ env.VM_ZONE }} --command "docker pull ${{ env.GCR_HOSTNAME }}/${{ env.PROJECT_ID }}/${{ env.CONTAINER_NAME }}:${{ github.sha }}"
-        gcloud compute ssh ${{ env.VM_NAME }} --zone=${{ env.VM_ZONE }} --command "docker stop ${{ env.CONTAINER_NAME }}"
-        gcloud compute ssh ${{ env.VM_NAME }} --zone=${{ env.VM_ZONE }} --command "docker rm ${{ env.CONTAINER_NAME }}"
         gcloud compute ssh ${{ env.VM_NAME }} --zone=${{ env.VM_ZONE }} --command "echo 'DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }}' > .env"
         gcloud compute ssh ${{ env.VM_NAME }} --zone=${{ env.VM_ZONE }} --command "echo 'WANDB_API_KEY=${{ secrets.WANDB_API_KEY }}' >> .env"
         gcloud compute ssh ${{ env.VM_NAME }} --zone=${{ env.VM_ZONE }} --command "docker run -d --name ${CONTAINER_NAME} ${{ env.GCR_HOSTNAME }}/${{ env.PROJECT_ID }}/${{ env.CONTAINER_NAME }}:${{ github.sha }}"
