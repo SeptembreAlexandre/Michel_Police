@@ -7,9 +7,6 @@ import re
 import string
 import pickle
 import os
-from dotenv import load_dotenv
-
-load_dotenv('./.env')
 
 wandb.login(key=os.getenv('WANDB_API_KEY'))
 DISCORD_TOKEN = os.getenv('DISCORD_TOKEN')
