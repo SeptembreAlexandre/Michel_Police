@@ -60,3 +60,4 @@ wandb==0.15.1
 Werkzeug==2.3.3
 wrapt==1.14.1
 yarl==1.9.2
+python-dotenv==1.0.0
