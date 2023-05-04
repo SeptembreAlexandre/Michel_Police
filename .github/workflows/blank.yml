@@ -8,7 +8,7 @@ on:
 env:
   PROJECT_ID: infinite-rope-385620
   VM_NAME: instance-1
-  VM_ZONE: eurioe-west9-a
+  VM_ZONE: europe-west9-a
   CONTAINER_NAME: bot-discord
   GCR_HOSTNAME: gcr.io
 
