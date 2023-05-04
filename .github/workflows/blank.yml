@@ -51,6 +51,12 @@ jobs:
 
     - name: SSH into the VM instance
       run: |
+        gcloud compute ssh ${{ env.VM_NAME }} --zone=${{ env.VM_ZONE }} --command "sudo apt-get update"
+        gcloud compute ssh ${{ env.VM_NAME }} --zone=${{ env.VM_ZONE }} --command "sudo apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release"
+        gcloud compute ssh ${{ env.VM_NAME }} --zone=${{ env.VM_ZONE }} --command "curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg"
+        gcloud compute ssh ${{ env.VM_NAME }} --zone=${{ env.VM_ZONE }} --command "echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable' | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null"
+        gcloud compute ssh ${{ env.VM_NAME }} --zone=${{ env.VM_ZONE }} --command "sudo apt-get update"
+        gcloud compute ssh ${{ env.VM_NAME }} --zone=${{ env.VM_ZONE }} --command "sudo apt-get install -y docker-ce docker-ce-cli containerd.io"
         gcloud compute ssh ${{ env.VM_NAME }} --zone=${{ env.VM_ZONE }} --command "sudo docker pull ${{ env.GCR_HOSTNAME }}/${{ env.PROJECT_ID }}/${{ env.CONTAINER_NAME }}:${{ github.sha }}"
         gcloud compute ssh ${{ env.VM_NAME }} --zone=${{ env.VM_ZONE }} --command "sudo docker stop $(sudo docker ps -q) || true"
         gcloud compute ssh ${{ env.VM_NAME }} --zone=${{ env.VM_ZONE }} --command "echo 'DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }}' > .env"
