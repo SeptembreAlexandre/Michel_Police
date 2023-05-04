@@ -51,6 +51,7 @@ jobs:
 
     - name: SSH into the VM instance
       run: |
+        gcloud compute ssh ${{ env.VM_NAME }} --zone=${{ env.VM_ZONE }} --command "echo '${{ secrets.GCR_JSON_KEY }}' | sudo docker login -u _json_key --password-stdin https://${{ env.GCR_HOSTNAME }}"
         gcloud compute ssh ${{ env.VM_NAME }} --zone=${{ env.VM_ZONE }} --command "docker pull ${{ env.GCR_HOSTNAME }}/${{ env.PROJECT_ID }}/${{ env.CONTAINER_NAME }}:${{ github.sha }}"
         gcloud compute ssh ${{ env.VM_NAME }} --zone=${{ env.VM_ZONE }} --command "docker stop $(sudo docker ps -q) || true"
         gcloud compute ssh ${{ env.VM_NAME }} --zone=${{ env.VM_ZONE }} --command "echo 'DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }}' > .env"
